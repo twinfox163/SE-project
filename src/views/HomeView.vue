@@ -4,11 +4,9 @@
   import Directory from '@/components/Directory.vue';
   import Profile from '@/components/Profile.vue';
   import axios from  'axios'
-
-  //const m_id = ref(Number(Cookies.get('id')) || 0);
-  //const repo_index = ref(Cookies.get('repo-index'));
-  const repo_index = ref(Number(Cookies.get('repo_index'))||0);
-  //user信息
+  import FileShow from '@/components/FileShow.vue';
+  
+  //user信息 包括username,id,库目录数据
   const user=reactive({
     id:Cookies.get('id')||0,
     username:Cookies.get('username')||0,
@@ -17,6 +15,7 @@
     {name:"world",files:["",""],children:[{name:"world1"},{name:"world2"}]},
     {name:"zzh",files:["hello.txt"],children:[{name:"zzh1",files:["hello"],children:[]},{name:"zzh2",files:["world"],children:[]}]}]
   });
+  //加载库的目录数据
   onMounted(() => {
     //加载数据到user.data
     const dataUrl = import.meta.env.VITE_API_BASE_URL + "/stores";
@@ -30,14 +29,31 @@
       const {status,data}=response;
       user.repositories=data;
     })
+
+    //加载文件数据
+    cur_file.value = (Cookies.get('cur_file'));
+    const fileUrl = import.meta.env.VITE_API_BASE_URL + "/files/" + `${cur_file.value}`;
+    axios.get(fileUrl)
+    .then((response)=>{
+      const {status,data}=response;
+      cur_file_content.value=data;
+    })
+
   });
+
+
+  //目录显示模块数据,当前的库索引
+  const repo_index = ref(Number(Cookies.get('repo_index'))||0);
+  //file_show组件数据
+  const cur_file = ref("");
+  const cur_file_content = ref("hello,world")
+
 </script>
 
 <template>
   <div>
     <!-- <h1>Home</h1> -->
     当前用户id为:{{ Cookies.get('id') }} <br>
-    {{ m_id }}
     <div>
       <Profile :user="user"></Profile>
     </div>
@@ -47,5 +63,8 @@
       <Directory :item="user.repositories[repo_index]" :key="repo_index" />
     </div>
     <!-- 显示文件 -->
+    <div>
+      <FileShow :file_path="Cookies.get('cur_file')" :file_content="cur_file_content"/> 
+    </div>
   </div>
 </template>
