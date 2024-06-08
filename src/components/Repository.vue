@@ -20,6 +20,7 @@ const {index} = props;
 const set_index=()=>{
   Cookies.set('repo_index',index);
   console.log(index);
+  this.$router.push('/')
 }
 </script>
 

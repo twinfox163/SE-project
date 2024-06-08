@@ -5,15 +5,15 @@
   import Profile from '@/components/Profile.vue';
   import axios from  'axios'
 
-  const m_id = ref(Number(Cookies.get('id')) || 0);
+  //const m_id = ref(Number(Cookies.get('id')) || 0);
   //const repo_index = ref(Cookies.get('repo-index'));
-  const index = ref(Number(Cookies.get('repo_index'))||0);
+  const repo_index = ref(Number(Cookies.get('repo_index'))||0);
   //user信息
   const user=reactive({
     id:Cookies.get('id')||0,
-    username:"0123456789",
+    username:Cookies.get('username')||0,
     repositories:[
-    {name:"hello",files:["hello.txt","world.c"],children:[{name:"hello1",children:[{name:"world"}]},{name:"hello2"}]},
+    {name:"hello",files:["D:->hello->hello->hello.txt","world.c"],children:[{name:"hello1",children:[{name:"world"}]},{name:"hello2"}]},
     {name:"world",files:["",""],children:[{name:"world1"},{name:"world2"}]},
     {name:"zzh",files:["hello.txt"],children:[{name:"zzh1",files:["hello"],children:[]},{name:"zzh2",files:["world"],children:[]}]}]
   });
@@ -43,7 +43,8 @@
     </div>
     <div>
       现在的仓库号是{{ Cookies.get('repo_index') }}
-      <Directory :item="user.repositories[index]" />
+      {{repo_index}}
+      <Directory :item="user.repositories[repo_index]" :key="repo_index" />
     </div>
   </div>
 </template>
