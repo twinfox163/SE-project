@@ -1,6 +1,6 @@
 <template>
-  <div class="repository-item">
-    <h3>{{ repository }}</h3>
+  <div class="repository-item" @click="set_index()">
+    <h3 >{{ repository.name }}</h3>
     <!-- <p>{{ repository.description }}</p> -->
     <!-- /<p>Stars: {{ repository.stars }}</p> -->
     <!-- <a :href="repository.url" target="_blank">View Repository</a> -->
@@ -8,12 +8,19 @@
 </template>
 
 <script setup>
+import Cookies from 'js-cookie';
 const props = defineProps({
   repository: {
-    type: String,
+    type: Object,
     required: true
-  }
+  },
+  index:String
 });
+const {index} = props;
+const set_index=()=>{
+  Cookies.set('repo_index',index);
+  console.log(index);
+}
 </script>
 
 <style scoped>

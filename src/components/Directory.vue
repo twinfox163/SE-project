@@ -1,15 +1,18 @@
 <template>
     <div>
       <div @click="toggle">
-        <span v-if="item.type === 'folder'">📁</span>
-        <span v-else>📄</span>
-        {{ item.name }}
+        <span>📁</span>{{ item.name }}
       </div>
-      <div v-if="item.type === 'folder' && isOpen" style="margin-left: 20px;">
+      <div v-if="isOpen" style="margin-left: 20px;">
         <Directory
           v-for="(child, index) in item.children"
           :key="index"
           :item="child"
+        />
+        <File
+          v-for="(file,index) in item.files"
+          :key="index"
+          :item="file"
         />
       </div>
     </div>
@@ -17,6 +20,7 @@
   
   <script setup>
   import { ref } from 'vue';
+  import File from '@/components/File.vue'
   const props = defineProps({
     item: Object
   });

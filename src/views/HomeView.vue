@@ -1,63 +1,48 @@
 <script setup>
-  import {ref,onMounted, reactive} from 'vue'
+  import {ref,onMounted, reactive,computed} from 'vue'
   import Cookies from 'js-cookie'
   import Directory from '@/components/Directory.vue';
   import Profile from '@/components/Profile.vue';
 
   const m_id = ref(Number(Cookies.get('id')) || 0);
-  const directoryStructure = {
-    name: 'root',
-    type: 'folder',
-    children: [
-      {
-        name: 'folder1',
-        type: 'folder',
-        children: [
-          {
-            name: 'file1.txt',
-            type: 'file'
-          },
-          {
-            name: 'file2.txt',
-            type: 'file'
-          }
-        ]
-      },
-      {
-        name: 'file3.txt',
-        type: 'file'
-      }
-    ]
-  };
+  //const repo_index = ref(Cookies.get('repo-index'));
+  const index = ref(Number(Cookies.get('repo_index'))||0);
   //user信息
   const user=reactive({
-    id:"112563",
-    name:"otofly",
-    repository:["hello-project","todo-project"]
+    id:Cookies.get('id')||0,
+    username:"0123456789",
+    repositories:[
+    {name:"hello",files:["hello.txt","world.c"],children:[{name:"hello1",children:[{name:"world"}]},{name:"hello2"}]},
+    {name:"world",files:["",""],children:[{name:"world1"},{name:"world2"}]},
+    {name:"zzh",files:["hello.txt"],children:[{name:"zzh1",files:["hello"],children:[]},{name:"zzh2",files:["world"],children:[]}]}]
   });
-  onMounted(() => {
-
-    //console.log("hello,world");
-  });
+  // onMounted(() => {
+  //   //加载数据到user.data
+  //   const dataUrl = import.meta.env.VITE_API_BASE_URL + "/stores";
+  //   console.log(dataUrl);
+  //   axios.get(dataUrl,{
+  //     params:{
+  //       username:user.username
+  //     }
+  //   })
+  //   .then((response)=>{
+  //     const {status,data}=response;
+  //     user.repositories=data;
+  //   })
+  // });
 </script>
 
 <template>
   <div>
     <!-- <h1>Home</h1> -->
-    当前用户id为:{{ (Cookies.get('id')|| 0) }} <br>
+    当前用户id为:{{ Cookies.get('id') }} <br>
+    {{ m_id }}
     <div>
       <Profile :user="user"></Profile>
     </div>
     <div>
-      <Directory :item="directoryStructure" />
+      现在的仓库号是{{ Cookies.get('repo_index') }}
+      <Directory :item="user.repositories[index]" />
     </div>
-    <!-- <div>
-      <h1>Directory Structure</h1>
-      <Directory :item="directoryStructure" />
-    </div> -->
-
-    <!-- <button @click="login">get id</button> -->
-    <!-- 当前id为:{{ id }}; -->
-    <!-- <TheWelcome /> -->
   </div>
 </template>

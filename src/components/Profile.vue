@@ -1,13 +1,14 @@
 <template>
     <div>
-      <h1>{{ user.name }}'s Repositories</h1>
+      <h1>{{ user.username }}'s Repositories</h1>
       <div v-if="loading">Loading...</div>
       <div v-if="error">{{ error }}</div>
       <div v-if="!loading && !error">
         <Repository
-          v-for="(repo,index) in user.repository"
+          v-for="(repo,index) in user.repositories"
           :key="index"
           :repository="repo"
+          :index="String(index)"
         />
       </div>
     </div>
@@ -33,20 +34,6 @@
   const show=()=>{
     console.log(user.id);
   };
-  
-//   const fetchUserData = async () => {
-//     try {
-//       const userId = 'some_user_id'; // Replace with dynamic user ID
-//       const userResponse = await axios.get(`https://api.example.com/users/${userId}`);
-//       user.value = userResponse.data;
-//       const reposResponse = await axios.get(`https://api.example.com/users/${userId}/repos`);
-//       repositories.value = reposResponse.data;
-//     } catch (err) {
-//       error.value = 'Failed to load user data';
-//     } finally {
-//       loading.value = false;
-//     }
-//   };
   
   onMounted(() => {
     //console.log(this.user);

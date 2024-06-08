@@ -51,6 +51,7 @@
     <!-- 用户名:<input type="text" v-model="name"><br> -->
     账号: <input type="text" v-model="id"><br>
     密码: <input type="text" v-model="password"><br>
-    <button @click="login()">登录</button>
+    <button @click="login()">log in</button>
+    <router-link to="/signup">sign up</router-link>
     </div>
 </template>
