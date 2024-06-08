@@ -1,14 +1,18 @@
 <script setup>
-    import {ref,reactive} from 'vue';
+    import {ref,reactive,onMounted} from 'vue';
     const props = defineProps({
         file_path:String,
         file_content:String
     })
+    const content = ref("");
+    onMounted(() => {
+        content.value=props.file_content;
+    });
 </script>
 
 <template>
     <div>
         当前显示文件：{{ file_path }}
-        文件内容:<br/>{{ file_content }}
+        文件内容:<br/><input type="text" v-model="content">
     </div>
 </template>

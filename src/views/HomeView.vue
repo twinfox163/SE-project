@@ -5,8 +5,10 @@
   import Profile from '@/components/Profile.vue';
   import axios from  'axios'
   import FileShow from '@/components/FileShow.vue';
+import { useRouter } from 'vue-router';
   
   //user信息 包括username,id,库目录数据
+  //const router = useRouter;
   const user=reactive({
     id:Cookies.get('id')||0,
     username:Cookies.get('username')||0,
@@ -18,6 +20,8 @@
   //加载库的目录数据
   onMounted(() => {
     //加载数据到user.data
+
+    //没有登录时跳转到login
     const dataUrl = import.meta.env.VITE_API_BASE_URL + "/stores";
     console.log(dataUrl);
     axios.get(dataUrl,{

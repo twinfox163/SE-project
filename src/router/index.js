@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import Cookies from 'js-cookie';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +8,15 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/HomeView.vue')
+      component: () => import('@/views/HomeView.vue'),
+      beforeEnter: (to, from, next) => {
+        // 在进入 /dashboard 路由前进行验证
+        if (Cookies.get('id')) {
+          next(); // 继续进入目标路由
+        } else {
+          next('/login'); // 未认证，跳转到登录页
+        }
+      },
     },
     {
       path: '/about',
