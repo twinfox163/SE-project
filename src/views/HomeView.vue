@@ -16,20 +16,20 @@
     {name:"world",files:["",""],children:[{name:"world1"},{name:"world2"}]},
     {name:"zzh",files:["hello.txt"],children:[{name:"zzh1",files:["hello"],children:[]},{name:"zzh2",files:["world"],children:[]}]}]
   });
-  // onMounted(() => {
-  //   //加载数据到user.data
-  //   const dataUrl = import.meta.env.VITE_API_BASE_URL + "/stores";
-  //   console.log(dataUrl);
-  //   axios.get(dataUrl,{
-  //     params:{
-  //       username:user.username
-  //     }
-  //   })
-  //   .then((response)=>{
-  //     const {status,data}=response;
-  //     user.repositories=data;
-  //   })
-  // });
+  onMounted(() => {
+    //加载数据到user.data
+    const dataUrl = import.meta.env.VITE_API_BASE_URL + "/stores";
+    console.log(dataUrl);
+    axios.get(dataUrl,{
+      params:{
+        username:user.username
+      }
+    })
+    .then((response)=>{
+      const {status,data}=response;
+      user.repositories=data;
+    })
+  });
 </script>
 
 <template>
