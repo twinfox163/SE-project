@@ -5,7 +5,7 @@
   import Profile from '@/components/Profile.vue';
   import axios from  'axios'
   import FileShow from '@/components/FileShow.vue';
-import { useRouter } from 'vue-router';
+  import { useRouter } from 'vue-router';
   
   //user信息 包括username,id,库目录数据
   //const router = useRouter;
@@ -20,7 +20,7 @@ import { useRouter } from 'vue-router';
   //加载库的目录数据
   onMounted(() => {
     //加载数据到user.data
-
+    
     //没有登录时跳转到login
     const dataUrl = import.meta.env.VITE_API_BASE_URL + "/stores";
     console.log(dataUrl);
@@ -55,20 +55,44 @@ import { useRouter } from 'vue-router';
 </script>
 
 <template>
-  <div>
-    <!-- <h1>Home</h1> -->
-    当前用户id为:{{ Cookies.get('id') }} <br>
-    <div>
-      <Profile :user="user"></Profile>
-    </div>
-    <div>
-      现在的仓库号是{{ Cookies.get('repo_index') }}
-      {{repo_index}}
-      <Directory :item="user.repositories[repo_index]" :key="repo_index" />
+  <div class="home-view">
+    <div class = 'left-panel'>
+      当前用户id为:{{ Cookies.get('id') }} <br>
+      <div>
+        <Profile :user="user"></Profile>
+      </div>
+      <div>
+        现在的仓库号是{{ Cookies.get('repo_index') }}
+        <Directory :item="user.repositories[repo_index]" :key="repo_index" />
+      </div>
     </div>
     <!-- 显示文件 -->
-    <div>
-      <FileShow :file_path="Cookies.get('cur_file')" :file_content="cur_file_content"/> 
+    <div class = 'right-panel'>
+      <div>
+        <FileShow :file_path="Cookies.get('cur_file')" :file_content="cur_file_content"/> 
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.home-view {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.left-panel {
+  flex: 1;
+  width: 10%;
+  background-color: #f8f8f8;
+  padding: 1rem;
+}
+
+.right-panel {
+  flex: 5;
+  width: 50%;
+  background-color: #ffffff;
+  padding: 1rem;
+}
+</style>

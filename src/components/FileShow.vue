@@ -12,7 +12,7 @@
 
 <template>
     <div>
-        当前显示文件：{{ file_path }}
+        当前显示文件：{{ file_path }}<br>
         文件内容:<br/><input type="text" v-model="content">
     </div>
 </template>
