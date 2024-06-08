@@ -13,9 +13,9 @@
     id:Cookies.get('id')||0,
     username:Cookies.get('username')||0,
     repositories:[
-    {name:"hello",files:["D:->hello->hello->hello.txt","world.c"],children:[{name:"hello1",children:[{name:"world"}]},{name:"hello2"}]},
-    {name:"world",files:["",""],children:[{name:"world1"},{name:"world2"}]},
-    {name:"zzh",files:["hello.txt"],children:[{name:"zzh1",files:["hello"],children:[]},{name:"zzh2",files:["world"],children:[]}]}]
+    {name:"hello",directory:"hello->hello",files:["D:->hello->hello->hello.txt","world.c"],children:[{name:"hello1",children:[{name:"world"}]},{name:"hello2"}]},
+    {name:"world",directory:"hello->world",files:["",""],children:[{name:"world1"},{name:"world2"}]},
+    {name:"zzh",directory:"hello->zzh",files:["hello.txt"],children:[{name:"zzh1",files:["hello"],children:[]},{name:"zzh2",files:["world"],children:[]}]}]
   });
   //加载库的目录数据
   onMounted(() => {
@@ -40,6 +40,7 @@
     axios.get(fileUrl)
     .then((response)=>{
       const {status,data}=response;
+      console.log(data);
       cur_file_content.value=data;
     })
 

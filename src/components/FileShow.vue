@@ -6,7 +6,9 @@
     })
     const content = ref("");
     onMounted(() => {
-        content.value=props.file_content;
+      console.log(props.file_path+"装载")
+      console.log(props.file_content);  
+      content.value=props.file_content;
     });
 </script>
 
@@ -15,7 +17,8 @@
       <div>
         {{ file_path }}<br>
       </div>
-      <textarea v-model="content" class="file-content" @keydown.tab.prevent></textarea>
+      <!-- <textarea v-model="content" class="file-content" @keydown.tab.prevent></textarea> -->
+      {{ file_content }} 
     </div>
   </template>
   
