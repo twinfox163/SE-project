@@ -46,5 +46,6 @@
       {{repo_index}}
       <Directory :item="user.repositories[repo_index]" :key="repo_index" />
     </div>
+    <!-- 显示文件 -->
   </div>
 </template>
