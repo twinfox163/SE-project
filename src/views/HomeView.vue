@@ -3,7 +3,7 @@
   import Cookies from 'js-cookie'
   import Directory from '@/components/Directory.vue';
   import Profile from '@/components/Profile.vue';
-  import axios from 'axios'
+  import axios from  'axios'
 
   const m_id = ref(Number(Cookies.get('id')) || 0);
   //const repo_index = ref(Cookies.get('repo-index'));
