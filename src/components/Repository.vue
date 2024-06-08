@@ -32,7 +32,7 @@ const set_index=()=>{
   border-radius: 4px;
 }
 .repository-item h3 {
-  margin: 0 0 8px 0;
+  margin: 0 0 3px 0;
 }
 .repository-item p {
   margin: 4px 0;
