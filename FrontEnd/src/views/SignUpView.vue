@@ -3,6 +3,7 @@
     用户名<input type="text" v-model="username"><br>
     密码<input type="text" v-model="password"><br>
     <button @click="signup()">sign up</button>
+    <router-link to="/login">log in</router-link>
     </div>
 </template>
 

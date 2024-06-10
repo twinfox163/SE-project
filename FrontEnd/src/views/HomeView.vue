@@ -1,79 +1,76 @@
 <script setup>
-  import {ref,onMounted, reactive,computed} from 'vue'
-  import Cookies from 'js-cookie'
-  import Directory from '@/components/Directory.vue';
-  import Profile from '@/components/Profile.vue';
-  import axios from  'axios'
-  import FileShow from '@/components/FileShow.vue';
-  import { useRouter } from 'vue-router';
-  
-  //user信息 包括username,id,库目录数据
-  //const router = useRouter;
-  const user=reactive({
-    id:Cookies.get('id')||0,
-    username:Cookies.get('username')||0,
-    repositories:[
-    {name:"hello",directory:"hello->hello",files:["D:->hello->hello->hello.txt","world.c"],children:[{name:"hello1",children:[{name:"world"}]},{name:"hello2"}]},
-    {name:"world",directory:"hello->world",files:["",""],children:[{name:"world1"},{name:"world2"}]},
-    {name:"zzh",directory:"hello->zzh",files:["hello.txt"],children:[{name:"zzh1",files:["hello"],children:[]},{name:"zzh2",files:["world"],children:[]}]}]
-  });
-  //加载库的目录数据
-  onMounted(() => {
-    //加载数据到user.data
+    import { computed, onMounted, reactive, watch } from 'vue';
+    import Cookies from 'js-cookie'
+    import axios from 'axios'
     
-    //没有登录时跳转到login
-    const dataUrl = import.meta.env.VITE_API_BASE_URL + "/stores";
-    console.log(dataUrl);
-    axios.get(dataUrl,{
-      params:{
-        username:user.username
-      }
+    import Profile from '@/components/Profile.vue'
+    import Directory from '@/components/Directory.vue'
+    
+    const userdata=reactive({
+        username:Cookies.get('username')||0,
+        repositories:[{name:null,children:[],files:[],directory:""}]
     })
-    .then((response)=>{
-      const {status,data}=response;
-      user.repositories=data;
+    onMounted(()=>{
+        userdata.username=Cookies.get('username')||0;
+        if(userdata.username){
+            const url=import.meta.env.VITE_API_BASE_URL+'/stores';
+            const params={params:{username:userdata.username}};
+            console.log(url,params);
+            axios.get(url,params).then(response=>{
+                const {status,data}=response;
+                console.log(response);
+                userdata.repositories=data;
+            })
+        } 
     })
-
-    //加载文件数据
-    cur_file.value = (Cookies.get('cur_file'));
-    const fileUrl = import.meta.env.VITE_API_BASE_URL + "/files/" + `${cur_file.value}`;
-    axios.get(fileUrl)
-    .then((response)=>{
-      const {status,data}=response;
-      console.log(data);
-      cur_file_content.value=data;
-    })
-
-  });
-
-
-  //目录显示模块数据,当前的库索引
-  const repo_index = ref(Number(Cookies.get('repo_index'))||0);
-  //file_show组件数据
-  const cur_file = ref("");
-  const cur_file_content = ref("hello,world")
-
+    watch(
+        ()=>Cookies.get('username'),
+        ()=>{
+            userdata.username=Cookies.get('username')||0;
+            if(userdata.username){
+                const url=import.meta.env.VITE_API_BASE_URL+'/stores';
+                const params={params:{username:userdata.username}};
+                console.log(url,params);
+                axios.get(url,params).then(response=>{
+                    const {status,data}=response;
+                    console.log(response);
+                    userdata.repositories=data;
+                })
+            } 
+        }
+    )
+    // const update=()=>{
+    //     userdata.username=Cookies.get('username')||0;
+    //     if(userdata.username){
+    //         const url=import.meta.env.VITE_API_BASE_URL+'/stores';
+    //         const params={params:{username:userdata.username}};
+    //         console.log(url,params);
+    //         axios.get(url,params).then(response=>{
+    //             const {status,data}=response;
+    //             console.log(response);
+    //             userdata.repositories=data;
+    //         })
+    //     }
+    // }
 </script>
 
 <template>
-  <div class="home-view">
-    <div class = 'left-panel'>
-      当前用户id为:{{ Cookies.get('id') }} <br>
-      <div>
-        <Profile :user="user"></Profile>
-      </div>
-      <div>
-        现在的仓库号是{{ Cookies.get('repo_index') }}
-        <Directory :item="user.repositories[repo_index]" :key="repo_index" />
-      </div>
+    <div class="home-view">
+        <div class="left-panel">
+            <div>
+                <Profile :user="userdata"></Profile>
+            </div>
+            <div>
+                现在的仓库号是 0 <br>
+                <div v-for="repo in userdata.repositories" :key="repo.name">
+                    <Directory :item="repo"/>
+                </div>
+            </div>
+        </div>
+        <div class="right-panel">
+            file
+        </div>
     </div>
-    <!-- 显示文件 -->
-    <div class = 'right-panel'>
-      <div>
-        <FileShow :file_path="Cookies.get('cur_file')" :file_content="cur_file_content"/> 
-      </div>
-    </div>
-  </div>
 </template>
 
 <style scoped>
