@@ -1,28 +1,18 @@
-<template>
-  <div class="repository-item" @click="set_index()">
-    <h3 >{{ repository.name }}</h3>
-    <!-- <p>{{ repository.description }}</p> -->
-    <!-- /<p>Stars: {{ repository.stars }}</p> -->
-    <!-- <a :href="repository.url" target="_blank">View Repository</a> -->
-  </div>
-</template>
-
 <script setup>
-import Cookies from 'js-cookie';
-const props = defineProps({
-  repository: {
-    type: Object,
-    required: true
-  },
-  index:String
-});
-const {index} = props;
-const set_index=()=>{
-  Cookies.set('repo_index',index);
-  console.log(index);
-  window.location.reload()
-}
+    import {g_data} from '@/store'
+    const props = defineProps({
+        item:Object
+    })
+    const set_repo_url=(()=>{
+        g_data.repo_url = props.item.directory;
+    })
 </script>
+
+<template>
+    <div class = "repository-item" @click="set_repo_url()">
+        <h3>{{item.name}}</h3>
+    </div>
+</template>
 
 <style scoped>
 .repository-item {

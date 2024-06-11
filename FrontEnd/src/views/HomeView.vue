@@ -1,68 +1,64 @@
 <script setup>
-    import { computed, onMounted, reactive, watch } from 'vue';
+    import { computed, onMounted, reactive, watch, ref } from 'vue';
     import Cookies from 'js-cookie'
     import axios from 'axios'
-    
+
     import Profile from '@/components/Profile.vue'
     import Directory from '@/components/Directory.vue'
-    
-    const userdata=reactive({
+
+    import {g_data} from '@/store.js'
+
+    const profile=reactive({
         username:Cookies.get('username')||0,
         repositories:[{name:null,children:[],files:[],directory:""}]
     })
     onMounted(()=>{
-        userdata.username=Cookies.get('username')||0;
-        if(userdata.username){
+        profile.username=Cookies.get('username')||0;
+        if(profile.username){
             const url=import.meta.env.VITE_API_BASE_URL+'/stores';
-            const params={params:{username:userdata.username}};
+            const params={params:{username:profile.username}};
             console.log(url,params);
             axios.get(url,params).then(response=>{
                 const {status,data}=response;
                 console.log(response);
-                userdata.repositories=data;
+                profile.repositories=data;
             })
         } 
     })
     watch(
         ()=>Cookies.get('username'),
         ()=>{
-            userdata.username=Cookies.get('username')||0;
-            if(userdata.username){
+            profile.username=Cookies.get('username')||0;
+            if(profile.username){
                 const url=import.meta.env.VITE_API_BASE_URL+'/stores';
-                const params={params:{username:userdata.username}};
+                const params={params:{username:profile.username}};
                 console.log(url,params);
                 axios.get(url,params).then(response=>{
                     const {status,data}=response;
                     console.log(response);
-                    userdata.repositories=data;
+                    profile.repositories=data;
                 })
             } 
         }
     )
-    // const update=()=>{
-    //     userdata.username=Cookies.get('username')||0;
-    //     if(userdata.username){
-    //         const url=import.meta.env.VITE_API_BASE_URL+'/stores';
-    //         const params={params:{username:userdata.username}};
-    //         console.log(url,params);
-    //         axios.get(url,params).then(response=>{
-    //             const {status,data}=response;
-    //             console.log(response);
-    //             userdata.repositories=data;
-    //         })
-    //     }
-    // }
+    const target_repo = computed(()=>{
+        return profile.repositories.filter(item=>{
+            return item.directory == g_data.repo_url;
+        })
+    })
+
 </script>
 
 <template>
     <div class="home-view">
         <div class="left-panel">
             <div>
-                <Profile :user="userdata"></Profile>
+                <Profile :profile="profile"></Profile>
             </div>
             <div>
-                现在的仓库号是 0 <br>
-                <div v-for="repo in userdata.repositories" :key="repo.name">
+                <!-- <el-text size="large">现在的仓库号是 0</el-text>   <br> -->
+                现在的repo_url: <br> {{ g_data.repo_url }}
+                <div v-for="repo in target_repo" :key="repo.name">
                     <Directory :item="repo"/>
                 </div>
             </div>
