@@ -9,14 +9,17 @@
 
     import {g_data} from '@/store.js'
 
+    //用户主页数据
     const profile=reactive({
         username:Cookies.get('username')||0,
         repositories:[]
     })
+    //初始化
     onMounted(()=>{
-        console.log("hello")
         g_data.repo_url = null;
         g_data.file_url = null;
+        g_data.dir_url = null;
+        file_content.value = null;
         profile.username=Cookies.get('username')||0;
         if(profile.username){
             const url=import.meta.env.VITE_API_BASE_URL+'/stores';
@@ -29,17 +32,20 @@
             })
         } 
     })
+    //计算属性求当前的库
+    const target_repo = computed(()=>{
+        return profile.repositories.filter(item=>{
+            return item.directory == g_data.repo_url;
+        })
+    })
+    
+    //监视file_url更新file_content
     watch(
         ()=>g_data.file_url,
         ()=>{
             load_file();
         }
     )
-    const target_repo = computed(()=>{
-        return profile.repositories.filter(item=>{
-            return item.directory == g_data.repo_url;
-        })
-    })
     const file_content = ref("");
     const load_file=(()=>{
         if(g_data.file_url){
@@ -63,7 +69,8 @@
                 <Profile :profile="profile"></Profile>
             </div>
             <div>
-                <!-- 现在的repo_url: <br> {{ g_data.repo_url }} -->
+                现在的repo_url: <br> {{ g_data.repo_url }} <br>
+                现在的dir_url: <br> {{ g_data.dir_url }} <br>
                 <div v-for="repo in target_repo" :key="repo.name">
                     <Directory :item="repo"/>
                 </div>
