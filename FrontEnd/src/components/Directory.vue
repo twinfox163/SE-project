@@ -21,7 +21,6 @@
   <script setup>
   import { ref } from 'vue';
   import File from '@/components/File.vue'
-  import Cookies from 'js-cookie';
   const props = defineProps({
     item: Object
   });
@@ -29,7 +28,6 @@
   const isOpen = ref(false);
   const toggle = () => {
     isOpen.value = !isOpen.value;
-    Cookies.set('cur_dir',props.item.directory);
   };
   </script>
   

@@ -5,14 +5,18 @@
 
     import Profile from '@/components/Profile.vue'
     import Directory from '@/components/Directory.vue'
+    import FileShow from '@/components/FileShow.vue';
 
     import {g_data} from '@/store.js'
 
     const profile=reactive({
         username:Cookies.get('username')||0,
-        repositories:[{name:null,children:[],files:[],directory:""}]
+        repositories:[]
     })
     onMounted(()=>{
+        console.log("hello")
+        g_data.repo_url = null;
+        g_data.file_url = null;
         profile.username=Cookies.get('username')||0;
         if(profile.username){
             const url=import.meta.env.VITE_API_BASE_URL+'/stores';
@@ -26,25 +30,28 @@
         } 
     })
     watch(
-        ()=>Cookies.get('username'),
+        ()=>g_data.file_url,
         ()=>{
-            profile.username=Cookies.get('username')||0;
-            if(profile.username){
-                const url=import.meta.env.VITE_API_BASE_URL+'/stores';
-                const params={params:{username:profile.username}};
-                console.log(url,params);
-                axios.get(url,params).then(response=>{
-                    const {status,data}=response;
-                    console.log(response);
-                    profile.repositories=data;
-                })
-            } 
+            load_file();
         }
     )
     const target_repo = computed(()=>{
         return profile.repositories.filter(item=>{
             return item.directory == g_data.repo_url;
         })
+    })
+    const file_content = ref("");
+    const load_file=(()=>{
+        if(g_data.file_url){
+            const url=import.meta.env.VITE_API_BASE_URL+'/files';
+            const params={params:{filename:g_data.file_url}};
+            console.log(url,params);
+            axios.get(url,params).then(response=>{
+                const {status,data}=response;
+                console.log(response);
+                file_content.value=data;
+            })
+        }
     })
 
 </script>
@@ -56,15 +63,14 @@
                 <Profile :profile="profile"></Profile>
             </div>
             <div>
-                <!-- <el-text size="large">现在的仓库号是 0</el-text>   <br> -->
-                现在的repo_url: <br> {{ g_data.repo_url }}
+                <!-- 现在的repo_url: <br> {{ g_data.repo_url }} -->
                 <div v-for="repo in target_repo" :key="repo.name">
                     <Directory :item="repo"/>
                 </div>
             </div>
         </div>
         <div class="right-panel">
-            file
+            <FileShow :file_content="file_content" :key="file_content"/>
         </div>
     </div>
 </template>

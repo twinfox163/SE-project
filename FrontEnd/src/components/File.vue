@@ -1,22 +1,20 @@
 <template>
-    <div @click = "set_cur_file(item)">
+    <div @click = "set_file_url()">
         <span>📄</span>
-        {{ get_name(item) }}
+        {{ file_name }}
     </div>
 </template>
 <script setup>
-    import Cookies from 'js-cookie';
+    import { computed } from 'vue';
+    import { g_data } from '@/store';
     const props = defineProps({
         item:String
     });
-    const get_name=(path)=>{
-        const segments = path.split('->'); // 使用 '->' 分割路径
-        return segments[segments.length - 1]; // 返回最后一个元素
+    const file_name=computed(()=>{
+        let segments = props.item.split('->'); // 使用 '->' 分割路径
+        return segments[segments.length-1];
+    })
+    const set_file_url=()=>{
+        g_data.file_url = props.item;
     }
-    //向父组件提供信息
-    const set_cur_file=(path)=>{
-        Cookies.set('cur_file',path);
-        window.location.reload();
-    }
-    
 </script>

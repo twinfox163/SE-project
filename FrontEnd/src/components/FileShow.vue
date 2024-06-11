@@ -1,28 +1,23 @@
 <script setup>
-    import {ref,reactive,onMounted} from 'vue';
+    import { g_data } from '@/store';
+    import { onMounted, ref } from 'vue';
     const props = defineProps({
-        file_path:String,
         file_content:String
     })
     const content = ref("");
-    onMounted(() => {
-      console.log(props.file_path+"装载")
-      console.log(props.file_content);  
-      content.value=props.file_content;
-    });
+    onMounted(()=>{
+        content.value = props.file_content;
+    })
 </script>
 
 <template>
     <div>
-      <div>
-        {{ file_path }}<br>
-      </div>
-      <!-- <textarea v-model="content" class="file-content" @keydown.tab.prevent></textarea> -->
-      {{ file_content }} 
+        {{g_data.file_url}} <br>
+        <textarea cols="70" rows="50" v-model="content"></textarea>
     </div>
-  </template>
-  
-  <style>
+</template>
+
+<style>
   .file-content {
     width: 80%;
     height: 300px; /* 设置输入框的高度 */
