@@ -81,21 +81,34 @@
         return g_data.cur_url.replace(/->/,'/');
         else return null;
     })
+
+    const load_repo = () => {
+        if(profile.username){
+            const url=import.meta.env.VITE_API_BASE_URL+'/stores';
+            const params={params:{username:profile.username}};
+            console.log(url,params);
+            axios.get(url,params).then(response=>{
+                const {status,data}=response;
+                console.log(response);
+                profile.repositories=data;
+            })
+        } 
+    }
 </script>
 
 <template>
     <div class="home-view">
         <div class="left-panel">
             <div>
-                <Profile :profile="profile"></Profile>
+                <Profile :profile="profile" @load_repo="load_repo"></Profile>
             </div>
             <div>
                 repo_url:  {{ format_repo_url }} <br>
                 dir_url:  {{ format_dir_url }} <br>
                 cur_url:  {{ format_cur_url }} <br>
                 file_url:  {{ format_file_url }} <br>
-                <button>add file</button>
-                <button>add dir</button> <br>
+                <button>+ file</button>
+                <button>+ dir</button> <br>
                 <div v-for="repo in target_repo" :key="repo.name">
                     <Directory :item="repo"/>
                 </div>
