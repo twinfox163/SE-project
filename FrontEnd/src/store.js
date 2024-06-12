@@ -8,4 +8,5 @@ export const g_data = reactive({
     add_repo_flag:false,
     add_dir_flag:false,
     add_file_flag:false,
+    username:null,
 })

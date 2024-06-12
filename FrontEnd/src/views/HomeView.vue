@@ -16,6 +16,7 @@
     })
     //初始化
     onMounted(()=>{
+        g_data.username = Cookies.get('username');
         g_data.repo_url = null;
         g_data.file_url = null;
         g_data.dir_url = null;

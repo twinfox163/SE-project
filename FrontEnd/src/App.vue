@@ -1,12 +1,22 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+  import { RouterLink, RouterView } from 'vue-router'
+  import { g_data } from './store';
+  import Cookies from 'js-cookie';
+  import router from './router';
+  const logout=()=>{
+      Cookies.set('username','');
+      g_data.username = '';
+      router.push('/login');
+  } 
 </script>
 
 <template>
   <div class="app-container">
     <nav class="navbar">
       <router-link to="/">Home</router-link>
-      <router-link to="/login">Log in</router-link>
+      <router-link v-if="g_data.username==''" to="/login">Log in</router-link>
+      <button v-else @click="logout()">Log out</button>
+      
     </nav>
     <div class="router-container">
       <RouterView />
