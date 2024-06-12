@@ -33,9 +33,10 @@
   const toggle = () => {
     isOpen.value = !isOpen.value;
     g_data.dir_url = props.item.directory;
+    g_data.cur_url = props.item.directory;
   };
   const is_selected = computed(()=>{
-    return (g_data.dir_url == props.item.directory);
+    return (g_data.cur_url == props.item.directory);
   })
   </script>
 
@@ -43,7 +44,7 @@
 .target-dir {
   background-color: rgb(186, 233, 212);
   cursor: pointer;
-  padding: 5px;
+  /* padding: 5px; */
   border-radius: 5px;
   color: white;
 }

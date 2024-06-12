@@ -8,7 +8,11 @@
 
 <template>
     <div>
-        <h1>{{ profile.username }}'s <br> Repositories</h1>
+        <h1>
+            {{ profile.username }}'s <br> Repositories
+            <button>add repo</button>
+        </h1>
+        
         <div>
             <Repository v-for="repo in profile.repositories" :key="repo.name" :item="repo"/>
         </div>

@@ -19,6 +19,7 @@
         g_data.repo_url = null;
         g_data.file_url = null;
         g_data.dir_url = null;
+        g_data.cur_url = null;
         file_content.value = null;
         profile.username=Cookies.get('username')||0;
         if(profile.username){
@@ -60,6 +61,26 @@
         }
     })
 
+    const format_repo_url = computed(()=>{
+        if(g_data.repo_url)
+        return g_data.repo_url.replace(/->/,'/');
+        else return null;
+    })
+    const format_dir_url = computed(()=>{
+        if(g_data.dir_url)
+        return g_data.dir_url.replace(/->/,'/');
+        else return null;
+    })
+    const format_file_url = computed(()=>{
+        if(g_data.file_url)
+        return g_data.file_url.replace(/->/,'/');
+        else return null;
+    })
+    const format_cur_url = computed(()=>{
+        if(g_data.cur_url)
+        return g_data.cur_url.replace(/->/,'/');
+        else return null;
+    })
 </script>
 
 <template>
@@ -69,15 +90,19 @@
                 <Profile :profile="profile"></Profile>
             </div>
             <div>
-                现在的repo_url: <br> {{ g_data.repo_url }} <br>
-                现在的dir_url: <br> {{ g_data.dir_url }} <br>
+                repo_url:  {{ format_repo_url }} <br>
+                dir_url:  {{ format_dir_url }} <br>
+                cur_url:  {{ format_cur_url }} <br>
+                file_url:  {{ format_file_url }} <br>
+                <button>add file</button>
+                <button>add dir</button> <br>
                 <div v-for="repo in target_repo" :key="repo.name">
                     <Directory :item="repo"/>
                 </div>
             </div>
         </div>
         <div class="right-panel">
-            <FileShow :file_content="file_content" :key="file_content"/>
+            <FileShow/>
         </div>
     </div>
 </template>
@@ -90,7 +115,7 @@
 }
 
 .left-panel {
-  flex: 1;
+  flex: 2;
   width: 10%;
   background-color: #f8f8f8;
   padding: 1rem;

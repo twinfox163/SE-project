@@ -1,26 +1,45 @@
 <script setup>
     import { g_data } from '@/store';
-    import { onMounted, ref } from 'vue';
-    const props = defineProps({
-        file_content:String
-    })
-    const content = ref("");
+    import { onMounted, ref, watch } from 'vue';
+    import axios from 'axios';
+    const file_content = ref("");
     onMounted(()=>{
-        content.value = props.file_content;
+        load_file();
+    })
+
+    //监视file_url更新file_content
+    watch(
+        ()=>g_data.file_url,
+        ()=>{
+            load_file();
+        }
+    )
+    const load_file=(()=>{
+        file_content.value = null;
+        if(g_data.file_url){
+            const url=import.meta.env.VITE_API_BASE_URL+'/files';
+            const params={params:{filename:g_data.file_url}};
+            console.log(url,params);
+            axios.get(url,params).then(response=>{
+                const {status,data}=response;
+                console.log(response);
+                file_content.value=data;
+            })
+        }
     })
 </script>
 
 <template>
     <div>
         {{g_data.file_url}} <br>
-        <textarea cols="70" rows="50" v-model="content"></textarea>
+        <textarea cols="80" rows="40" v-model="file_content" class="file-content"></textarea>
     </div>
 </template>
 
 <style>
   .file-content {
     width: 80%;
-    height: 300px; /* 设置输入框的高度 */
+    height: 600px; /* 设置输入框的高度 */
     resize: vertical; /* 允许垂直方向调整大小 */
     border: 1px solid #ccc; /* 添加边框 */
     padding: 10px; /* 添加内边距 */

@@ -1,5 +1,5 @@
 <template>
-    <div @click = "set_file_url()">
+    <div @click="set_file_url()" :class="{'target-file':is_selected}">
         <span>📄</span>
         {{ file_name }}
     </div>
@@ -16,5 +16,27 @@
     })
     const set_file_url=()=>{
         g_data.file_url = props.item;
+        g_data.cur_url = props.item;
+        g_data.dir_url = get_dir_url(props.item);
     }
+    const get_dir_url=((file_url)=>{
+        const parts = file_url.split('->');
+        if(parts.length>1){
+            parts.pop();
+        }
+        return parts.join('->');
+    })
+    const is_selected=computed(()=>{
+        return (g_data.cur_url == props.item);
+    })
 </script>
+
+<style scoped>
+.target-file {
+  background-color: rgb(186, 233, 212);
+  cursor: pointer;
+  /* padding: 5px; */
+  border-radius: 5px;
+  color: white;
+}
+</style>

@@ -5,6 +5,9 @@
     })
     const set_repo_url=(()=>{
         g_data.repo_url = props.item.directory;
+        g_data.dir_url = props.item.directory;
+        g_data.cur_url = props.item.directory;
+        g_data.file_url = null;
     })
 </script>
 
