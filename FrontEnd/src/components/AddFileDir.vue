@@ -59,11 +59,34 @@
         }
     }
     const emits = defineEmits(['load_repo']);
-    const onFileChange = ()=>{
 
+    const file = ref(null);
+    const onFileChange = ()=>{
+        file.value = event.target.files[0];
     }
     const uploadFile = ()=>{
-
+        if(file.value){
+            //添加文件
+            const url=import.meta.env.VITE_API_BASE_URL+'/upload';
+            const params={params:{file:file.value,path:g_data.dir_url}};
+            console.log(url,params);   
+            try{
+            axios.get(url,params).then(response=>{
+                const {status,data}=response;
+                console.log(response);
+                if(data=='success'){
+                    //添加成功
+                    emits('load_repo');
+                }else{
+                    alert(data);
+                }
+                add_flag.value = false;
+            })
+            }catch(error){
+                add_flag.value = false;
+                alert("error");
+            }
+        }
     }
 </script>
 
@@ -79,7 +102,7 @@
                 @blur="input_blur" @keydown.enter="handleEnter">
             <br>
         </div>
-        <input type="file"/>
+        <input type="file" @change="onFileChange"/>
         <button @click="uploadFile">Upload</button>
     </div>
 </template>
