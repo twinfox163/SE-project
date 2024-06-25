@@ -6,7 +6,7 @@
     import Profile from '@/components/Profile.vue'
     import Directory from '@/components/Directory.vue'
     import FileShow from '@/components/FileShow.vue';
-
+    import AddFileDir from '@/components/AddFileDir.vue';
     import {g_data} from '@/store.js'
 
     //用户主页数据
@@ -64,22 +64,22 @@
 
     const format_repo_url = computed(()=>{
         if(g_data.repo_url)
-        return g_data.repo_url.replace(/->/,'/');
+        return g_data.repo_url.replace(/->/g,'/');
         else return null;
     })
     const format_dir_url = computed(()=>{
         if(g_data.dir_url)
-        return g_data.dir_url.replace(/->/,'/');
+        return g_data.dir_url.replace(/->/g,'/');
         else return null;
     })
     const format_file_url = computed(()=>{
         if(g_data.file_url)
-        return g_data.file_url.replace(/->/,'/');
+        return g_data.file_url.replace(/->/g,'/');
         else return null;
     })
     const format_cur_url = computed(()=>{
         if(g_data.cur_url)
-        return g_data.cur_url.replace(/->/,'/');
+        return g_data.cur_url.replace(/->/g,'/');
         else return null;
     })
 
@@ -95,6 +95,14 @@
             })
         } 
     }
+
+    //增加文件夹
+    const add_dir_flag=false;
+    const add_name = "";
+    const add_dir = ()=>{
+        add_dir_flag = true;
+    }
+
 </script>
 
 <template>
@@ -108,8 +116,7 @@
                 dir_url:  {{ format_dir_url }} <br>
                 cur_url:  {{ format_cur_url }} <br>
                 file_url:  {{ format_file_url }} <br>
-                <button>+ file</button>
-                <button>+ dir</button> <br>
+                <AddFileDir @load_repo="load_repo"></AddFileDir>
                 <div v-for="repo in target_repo" :key="repo.name">
                     <Directory :item="repo"/>
                 </div>
