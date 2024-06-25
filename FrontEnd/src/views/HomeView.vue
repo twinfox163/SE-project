@@ -96,13 +96,6 @@
         } 
     }
 
-    //增加文件夹
-    const add_dir_flag=false;
-    const add_name = "";
-    const add_dir = ()=>{
-        add_dir_flag = true;
-    }
-
 </script>
 
 <template>

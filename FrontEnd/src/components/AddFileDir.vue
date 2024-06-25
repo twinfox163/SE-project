@@ -1,7 +1,7 @@
 <script setup>
     import { computed, ref } from "vue";
     import { g_data } from "../store";
-
+    import axios from "axios";
     const format_dir_url = computed(()=>{
         if(g_data.dir_url)
         return g_data.dir_url.replace(/->/g,'/');
@@ -34,7 +34,7 @@
             add_flag.value = false;
             return;
         }
-        if(add_dir_flag){
+        if(add_dir_flag.value){
             const url=import.meta.env.VITE_API_BASE_URL+'/new_dir';
             const params={params:{path:g_data.dir_url,dirname:add_name.value.trim()}};
             console.log(url,params);   
@@ -59,19 +59,27 @@
         }
     }
     const emits = defineEmits(['load_repo']);
+    const onFileChange = ()=>{
+
+    }
+    const uploadFile = ()=>{
+
+    }
 </script>
 
 <template>
     <div>
         <button @click="add_file">+ file</button>
         <button @click="add_dir">+ dir</button> <br>
-            <div v-show="add_flag">
-                <span v-if="add_dir_flag">new dir:</span>
-                <span v-else>new file</span>
-                {{ format_dir_url }}
-                <input type="text" v-model="add_name" ref="add_input"
-                    @blur="input_blur" @keydown.enter="handleEnter">
-                <br>
-            </div>
+        <div v-show="add_flag">
+            <span v-if="add_dir_flag">new dir:</span>
+            <span v-else>new file</span>
+            {{ format_dir_url }}
+            <input type="text" v-model="add_name" ref="add_input"
+                @blur="input_blur" @keydown.enter="handleEnter">
+            <br>
+        </div>
+        <input type="file"/>
+        <button @click="uploadFile">Upload</button>
     </div>
 </template>
