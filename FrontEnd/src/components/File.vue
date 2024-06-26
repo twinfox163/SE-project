@@ -18,6 +18,7 @@
         g_data.file_url = props.item;
         g_data.cur_url = props.item;
         g_data.dir_url = get_dir_url(props.item);
+        g_data.cur_show = 'file';
     }
     const get_dir_url=((file_url)=>{
         const parts = file_url.split('->');

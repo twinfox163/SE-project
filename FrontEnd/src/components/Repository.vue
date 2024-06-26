@@ -9,6 +9,7 @@
         g_data.dir_url = props.item.directory;
         g_data.cur_url = props.item.directory;
         g_data.file_url = null;
+        g_data.cur_show = 'dir';
     })
     const is_selected = computed(()=>{
       if(props.item.directory==g_data.repo_url){

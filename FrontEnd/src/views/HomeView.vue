@@ -7,6 +7,7 @@
     import Directory from '@/components/Directory.vue'
     import FileShow from '@/components/FileShow.vue';
     import AddFileDir from '@/components/AddFileDir.vue';
+    import History from '@/components/History.vue'
     import {g_data} from '@/store.js'
 
     //用户主页数据
@@ -95,7 +96,31 @@
             })
         } 
     }
-
+    const file_show_flag = computed(()=>{
+        if(g_data.cur_show == 'file'){
+            return true;
+        }else{
+            return false;
+        }
+    })
+    const history_show_flag = computed(()=>{
+        if(g_data.cur_show == 'history'){
+            return true;
+        }else{
+            return false;
+        }
+    })
+    const show_history = ()=>{
+        if(g_data.repo_url){
+            g_data.cur_show = 'history'; 
+        }
+        else{
+            alert('请选择库');
+        }       
+    }
+    const target_history = computed(()=>{
+        return target_repo[0].history;
+    })
 </script>
 
 <template>
@@ -110,13 +135,15 @@
                 cur_url:  {{ format_cur_url }} <br>
                 file_url:  {{ format_file_url }} <br>
                 <AddFileDir @load_repo="load_repo"></AddFileDir>
+                <button @click="show_history">History</button>
                 <div v-for="repo in target_repo" :key="repo.name">
                     <Directory :item="repo"/>
                 </div>
             </div>
         </div>
         <div class="right-panel">
-            <FileShow/>
+            <FileShow v-if="file_show_flag"></FileShow>
+            <History v-if="history_show_flag" :history="target_history"/>
         </div>
     </div>
 </template>

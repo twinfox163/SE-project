@@ -7,4 +7,5 @@ export const g_data = reactive({
     cur_url:null,
     add_repo_flag:false,
     username:'',
+    cur_show:'',
 })
