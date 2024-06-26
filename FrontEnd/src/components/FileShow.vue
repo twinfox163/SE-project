@@ -1,6 +1,6 @@
 <script setup>
     import { g_data } from '@/store';
-    import { onMounted, ref, watch } from 'vue';
+    import { onMounted, ref, watch,computed } from 'vue';
     import axios from 'axios';
     const file_content = ref("");
     
@@ -32,8 +32,12 @@
     const commit_message = ref("");
     const commit=()=>{
         const blob = new Blob([file_content.value], { type: 'text/plain;charset=utf-8' });
+        const formData = new FormData();
+        let segments = g_data.file_url.split('->');
+        const filename = segments[segments.length-1];
+        formData.append('file', blob, filename);
         const url=import.meta.env.VITE_API_BASE_URL+'/modify';
-        const params = {params:{file:blob,path:g_data.dir_url,mark:commit_message.value}};
+        const params = {params:{file:formData,path:g_data.dir_url,mark:commit_message.value}};
         console.log(url,params);
         try{
             axios.get(url,params).then(response=>{
@@ -50,12 +54,16 @@
             alert('catch error');
         }
     }
-
+    const format_file_url = computed(()=>{
+        if(g_data.file_url)
+        return g_data.file_url.replace(/->/g,'/');
+        else return null;
+    })
 </script>
 
 <template>
     <div>
-        {{g_data.file_url}} <br>
+        {{format_file_url}} <br>
         <textarea cols="80" rows="40" v-model="file_content" class="file-content"></textarea>
         <input type="text" v-model="commit_message"><button @click="commit">commit</button><br>
     </div>
