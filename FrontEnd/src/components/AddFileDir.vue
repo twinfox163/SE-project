@@ -68,10 +68,12 @@
         if(file.value){
             //添加文件
             const url=import.meta.env.VITE_API_BASE_URL+'/upload';
-            const params={params:{file:file.value,path:g_data.dir_url}};
-            console.log(url,params);
+            const formData = new FormData();
+            formData.append('file',file);
+            formData.append('path',g_data.dir_url);
+            console.log(url,formData);
             try{
-            axios.get(url,params).then(response=>{
+            axios.post(url,formData).then(response=>{
                 const {status,data}=response;
                 console.log(response);
                 if(data=='success'){
