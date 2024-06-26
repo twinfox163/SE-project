@@ -44,7 +44,7 @@
             axios.post(url,formData).then(response=>{
                 const {status,data}=response;
                 console.log(response);
-                if(data=='success'){
+                if(data==true){
                     alert('提交成功')
                 }
                 else{
