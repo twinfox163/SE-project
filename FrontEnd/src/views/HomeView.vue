@@ -112,14 +112,14 @@
     })
     const show_history = ()=>{
         if(g_data.repo_url){
-            g_data.cur_show = 'history'; 
+            g_data.cur_show = 'history';
         }
         else{
             alert('请选择库');
         }       
     }
     const target_history = computed(()=>{
-        return target_repo[0].history;
+        return target_repo.value[0].histories;
     })
 </script>
 
