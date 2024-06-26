@@ -3,6 +3,7 @@
     import { onMounted, ref, watch } from 'vue';
     import axios from 'axios';
     const file_content = ref("");
+    
     onMounted(()=>{
         load_file();
     })
@@ -27,12 +28,36 @@
             })
         }
     })
+
+    const commit_message = ref("");
+    const commit=()=>{
+        const blob = new Blob([file_content.value], { type: 'text/plain;charset=utf-8' });
+        const url=import.meta.env.VITE_API_BASE_URL+'/modify';
+        const params = {params:{file:blob,path:g_data.dir_url,mark:commit_message.value}};
+        console.log(url,params);
+        try{
+            axios.get(url,params).then(response=>{
+                const {status,data}=response;
+                console.log(response);
+                if(data=='success'){
+                    alert('提交成功')
+                }
+                else{
+                    alert('提交失败')
+                }
+            })
+        }catch(error){
+            alert('catch error');
+        }
+    }
+
 </script>
 
 <template>
     <div>
         {{g_data.file_url}} <br>
         <textarea cols="80" rows="40" v-model="file_content" class="file-content"></textarea>
+        <input type="text" v-model="commit_message"><button @click="commit">commit</button><br>
     </div>
 </template>
 

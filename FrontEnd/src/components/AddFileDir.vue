@@ -69,7 +69,7 @@
             //添加文件
             const url=import.meta.env.VITE_API_BASE_URL+'/upload';
             const params={params:{file:file.value,path:g_data.dir_url}};
-            console.log(url,params);   
+            console.log(url,params);
             try{
             axios.get(url,params).then(response=>{
                 const {status,data}=response;
@@ -80,10 +80,8 @@
                 }else{
                     alert(data);
                 }
-                add_flag.value = false;
             })
             }catch(error){
-                add_flag.value = false;
                 alert("error");
             }
         }
