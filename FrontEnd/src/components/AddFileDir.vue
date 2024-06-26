@@ -69,7 +69,7 @@
             //添加文件
             const url=import.meta.env.VITE_API_BASE_URL+'/upload';
             const formData = new FormData();
-            formData.append('file',file);
+            formData.append('file',file.value);
             formData.append('path',g_data.dir_url);
             console.log(url,formData);
             try{

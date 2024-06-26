@@ -36,11 +36,12 @@
         let segments = g_data.file_url.split('->');
         const filename = segments[segments.length-1];
         formData.append('file', blob, filename);
+        formData.append('path',g_data.dir_url);
+        formData.append('mark',commit_message.value);
         const url=import.meta.env.VITE_API_BASE_URL+'/modify';
-        const params = {params:{file:formData,path:g_data.dir_url,mark:commit_message.value}};
-        console.log(url,params);
+        console.log(url,formData);
         try{
-            axios.get(url,params).then(response=>{
+            axios.post(url,formData).then(response=>{
                 const {status,data}=response;
                 console.log(response);
                 if(data=='success'){
