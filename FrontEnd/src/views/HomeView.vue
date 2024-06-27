@@ -12,18 +12,18 @@
 
     //用户主页数据
     const profile=reactive({
-        username:Cookies.get('username')||0,
+        username:Cookies.get('token')||0,
         repositories:[]
     })
     //初始化
     onMounted(()=>{
-        g_data.username = Cookies.get('username');
+        g_data.token = Cookies.get('token');
         g_data.repo_url = null;
         g_data.file_url = null;
         g_data.dir_url = null;
         g_data.cur_url = null;
         file_content.value = null;
-        profile.username=Cookies.get('username')||0;
+        profile.username=Cookies.get('token')||0;
         if(profile.username){
             const url=import.meta.env.VITE_API_BASE_URL+'/stores';
             const params={params:{username:profile.username}};
@@ -119,7 +119,7 @@
         }       
     }
     const target_history = computed(()=>{
-        return target_repo.value[0].histories;
+        return target_repo.value[0].history;
     })
 </script>
 

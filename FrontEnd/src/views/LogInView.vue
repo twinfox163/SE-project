@@ -22,7 +22,7 @@
             const {status,data}=response;
             console.log(response);
             if(data){
-                Cookies.set('username',username.value);
+                Cookies.set('token',username.value);
                 router.push('/');
             }else{
                 alert('登录失败');

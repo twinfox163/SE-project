@@ -10,7 +10,7 @@ const router = createRouter({
       component: () => import('@/views/HomeView.vue'),
       beforeEnter: (to, from, next) => {
         // 在进入 /dashboard 路由前进行验证
-        if (Cookies.get('username')&&Cookies.get('username')!='') {
+        if (Cookies.get('token')&&Cookies.get('token')!='') {
           next(); // 继续进入目标路由
         } else {
           next('/login'); // 未认证，跳转到登录页
@@ -34,6 +34,21 @@ const router = createRouter({
       path: '/login',
       name: 'Log in',
       component: () => import('@/views/LogInView.vue')
+    },
+    {
+      path: '/space/:username',
+      name: 'Space',
+      component: ()=> import('@/views/SpaceView.vue')
+    },
+    {
+      path: '/space/:username/:name',
+      name: 'Repo',
+      component: ()=> import('@/views/RepoView.vue')
+    },
+    {
+      path: '/following',
+      name: 'Follow',
+      component: ()=> import('@/views/FollowView.vue')
     },
   ]
 })
