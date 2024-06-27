@@ -8,12 +8,12 @@
         profile: Object
     })
     const route_to_repo=(repo)=>{
-        g_data.repo_url = repo.directory;
-        g_data.dir_url = repo.directory;
-        g_data.cur_url = repo.directory;
-        g_data.file_url = null;
-        g_data.cur_show = 'dir';
-        router.push({name:'Repo',params:{username:props.profile.username,name:repo.name}});
+        // g_data.repo_url = repo.directory;
+        // g_data.dir_url = repo.directory;
+        // g_data.cur_url = repo.directory;
+        // g_data.file_url = null;
+        // g_data.cur_show = 'dir';
+        // router.push({name:'Repo',params:{username:props.profile.username,name:repo.name}});
     }
 </script>
 

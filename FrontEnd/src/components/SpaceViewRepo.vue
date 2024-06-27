@@ -1,12 +1,31 @@
 <script setup>
+    import { g_data } from '@/store';
+    import { computed } from 'vue';
+    import {useRouter} from 'vue-router'
+    const router = useRouter();
     const props =defineProps({
         item:Object
     })
+    const repo_data = computed(()=>{
+      let segments = props.item.directory.split('->');
+      return {
+        username:segments[0],
+        repo_name:segments[1]
+      }
+    })
+    const route_to_repo=()=>{
+        g_data.repo_url = props.item.directory;
+        g_data.dir_url = props.item.directory;
+        g_data.cur_url = props.item.directory;
+        g_data.file_url = null;
+        g_data.cur_show = 'dir';
+        router.push({name:'Repo',params:{username:repo_data.value.username,name:repo_data.value.repo_name}});
+    }
 </script>
 
 <template>
-    <div class = "repository-item">
-        <h3>{{item.name}}</h3>
+    <div class = "repository-item" @click="route_to_repo">
+        <h3>{{repo_data.username}}/{{ repo_data.repo_name }}</h3>
     </div>
 </template>
 
