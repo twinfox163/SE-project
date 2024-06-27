@@ -28,7 +28,7 @@
     })
     const load_repo=()=>{
         if(username.value.trim!=""){
-            const url=import.meta.env.VITE_API_BASE_URL+'/search_user';
+            const url=import.meta.env.VITE_API_BASE_URL+'/search_repo';
             const params={params:{username:username.value,name:repo_name.value}};
             console.log(url,params);
             axios.get(url,params).then(response=>{
