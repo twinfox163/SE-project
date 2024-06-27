@@ -11,7 +11,7 @@
   }
   const search_item = ref("");
   const search_link = computed(()=>{
-    if(search_item.value!=0)return search_item.value;
+    if(search_item.value!="")return search_item.value;
     else return " ";
   })
 </script>
