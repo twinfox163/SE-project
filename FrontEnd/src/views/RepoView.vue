@@ -83,13 +83,31 @@
         if(username.value!="")return username.value;
         else return " ";
     })
+    const follow=()=>{
+        const url = import.meta.env.VITE_API_BASE_URL+'/follow';
+        const formData = new FormData();
+        formData.append('username',g_data.token);
+        formData.append('store',l_data.repo_data);
+        console.log(url,formData);
+        axios.post(url,formData).then(response=>{
+            const {status,data} = response;
+            console.log(response);
+            alert('关注成功');
+        }).catch(error=>{
+            console.log(error);
+            alert('axios error');
+        })
+    }
 </script>
 
 <template>
     <div class="home-view">
         <div class="left-panel">
             <div>
-                <h1><router-link :to="{name:'Space',params:{username:format_username}}">{{ username }}</router-link>/{{ repo_name }}</h1>
+                <h1>
+                    <router-link :to="{name:'Space',params:{username:format_username}}">{{ username }}</router-link>
+                    /{{ repo_name }}<button @click="follow">follow</button>
+                </h1>
                 dir_url:  {{ format_dir_url }} <br>
                 cur_url:  {{ format_cur_url }} <br>
                 file_url:  {{ format_file_url }} <br>
