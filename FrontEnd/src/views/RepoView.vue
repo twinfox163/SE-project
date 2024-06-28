@@ -109,13 +109,13 @@
                 dir_url:  {{ format_dir_url }} <br>
                 cur_url:  {{ format_cur_url }} <br>
                 file_url:  {{ format_file_url }} <br>
-                <AddFileDir @repo_change="load_repo"></AddFileDir>
+                <!-- <AddFileDir @repo_change="load_repo"></AddFileDir> -->
                 <button @click="show_history">History</button>
                 <Directory v-if="(l_data.repo_data!=null)" :item="l_data.repo_data"/>
             </div>
         </div>
         <div class="right-panel">
-            <FileShow v-if="file_show_flag"></FileShow>
+            <FileShow v-if="file_show_flag" :config='{write:false}'></FileShow>
             <History v-if="history_show_flag" :history="l_data.repo_data.history"/>
         </div>
     </div>

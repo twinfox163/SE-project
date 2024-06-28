@@ -92,6 +92,7 @@
             axios.get(url,params).then(response=>{
                 const {status,data}=response;
                 console.log(response);
+                profile.repositories=null;
                 profile.repositories=data;
             })
         } 
@@ -142,7 +143,7 @@
             </div>
         </div>
         <div class="right-panel">
-            <FileShow v-if="file_show_flag"></FileShow>
+            <FileShow v-if="file_show_flag" :config="{write:true}"></FileShow>
             <History v-if="history_show_flag" :history="target_history"/>
         </div>
     </div>

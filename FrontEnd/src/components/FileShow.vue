@@ -3,7 +3,9 @@
     import { onMounted, ref, watch,computed } from 'vue';
     import axios from 'axios';
     const file_content = ref("");
-    
+    const props = defineProps({
+        config:Object
+    })
     onMounted(()=>{
         load_file();
     })
@@ -63,10 +65,16 @@
 </script>
 
 <template>
-    <div>
+    <div v-if="config.write">
         {{format_file_url}} <br>
         <textarea cols="80" rows="40" v-model="file_content" class="file-content"></textarea>
         <input type="text" v-model="commit_message"><button @click="commit">commit</button><br>
+    </div>
+    <div v-else>
+        {{ format_file_url }} <br>
+        <div class="file-content">
+            {{ file_content }}
+        </div>
     </div>
 </template>
 
