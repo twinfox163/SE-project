@@ -35,6 +35,7 @@
                 const {status,data}=response;
                 console.log(response);
                 if(data!=null){
+                    g_data.repo_url = data.directory;
                     l_data.repo_data=null;
                     l_data.repo_data=data;
                 }else{
@@ -77,6 +78,14 @@
             return false;
         }
     })
+    const show_history = ()=>{
+        if(g_data.repo_url){
+            g_data.cur_show = 'history';
+        }
+        else{
+            alert('请选择库');
+        }
+    }
     const format_username = computed(()=>{
         if(username.value!="")return username.value;
         else return " ";

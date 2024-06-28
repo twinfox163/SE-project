@@ -81,11 +81,11 @@
             axios.post(url,formData).then(response=>{
                 const {status,data}=response;
                 console.log(response);
-                if(data=='success'){
+                if(data==true){
                     //添加成功
                     emits('repo_change');
                 }else{
-                    alert(data);
+                    alert('上传失败');
                 }
             })
             }catch(error){
