@@ -89,7 +89,7 @@
         axios.post(url,formData).then(response=>{
             const {status,data} = response;
             console.log(response);
-            alert('关注成功');
+            alert(data);
         }).catch(error=>{
             console.log(error);
             alert('axios error');
