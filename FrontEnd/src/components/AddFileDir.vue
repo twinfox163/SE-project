@@ -7,6 +7,11 @@
         return g_data.dir_url.replace(/->/g,'/');
         else return null;
     })
+    const format_cur_url = computed(()=>{
+        if(g_data.cur_url)
+        return g_data.cur_url.replace(/->/g,'/');
+        else return null;
+    })
     const add_dir_flag = ref(false);
     const add_flag = ref(false);
     const add_name = ref("");
@@ -88,16 +93,39 @@
             }
         }
     }
+    const del_file=()=>{
+        const url = import.meta.env.VITE_API_BASE_URL + '/delete';
+        const params = {params:{filename:g_data.file_url}};
+        console.log(url,params);
+        axios.get(url,params).then(response=>{
+            const {status,data}=response;
+            console.log(response);
+            alert('删除成功');
+            emits('load_repo');
+        }).catch(error=>{
+            console.log(error);
+            alert('axios error');
+        })
+    }
+    const confirm_del=()=>{
+        if(confirm(`确定要删除${format_cur_url.value}吗`)){
+            if(g_data.cur_show=='file'){
+                del_file();
+            }
+        }
+    }
 </script>
 
 <template>
     <div>
         <button @click="add_file">+ file</button>
-        <button @click="add_dir">+ dir</button> <br>
+        <button @click="add_dir">+ dir</button> 
+        <button @click="confirm_del">delete</button>
+        <br>
         <div v-show="add_flag">
             <span v-if="add_dir_flag">new dir:</span>
             <span v-else>new file</span>
-            {{ format_dir_url }}
+            {{ format_dir_url }}/
             <input type="text" v-model="add_name" ref="add_input"
                 @blur="input_blur" @keydown.enter="handleEnter">
             <br>

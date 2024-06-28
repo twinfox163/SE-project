@@ -87,7 +87,7 @@
         const url = import.meta.env.VITE_API_BASE_URL+'/follow';
         const formData = new FormData();
         formData.append('username',g_data.token);
-        formData.append('store',l_data.repo_data);
+        formData.append('store',l_data.repo_data.directory);
         console.log(url,formData);
         axios.post(url,formData).then(response=>{
             const {status,data} = response;
