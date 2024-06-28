@@ -76,9 +76,6 @@
             return false;
         }
     })
-    const route_to_space=()=>{
-        router.push({name:'Space',params:{username:username.value}});
-    }
     const format_username = computed(()=>{
         if(username.value!="")return username.value;
         else return " ";
@@ -111,7 +108,7 @@
                 dir_url:  {{ format_dir_url }} <br>
                 cur_url:  {{ format_cur_url }} <br>
                 file_url:  {{ format_file_url }} <br>
-                <AddFileDir @load_repo="load_repo"></AddFileDir>
+                <AddFileDir @repo_change="load_repo"></AddFileDir>
                 <button @click="show_history">History</button>
                 <Directory v-if="(l_data.repo_data!=null)" :item="l_data.repo_data"/>
             </div>

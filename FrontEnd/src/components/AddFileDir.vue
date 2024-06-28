@@ -49,7 +49,7 @@
                 console.log(response);
                 if(data=='success'){
                     //添加成功
-                    emits('load_repo');
+                    emits('repo_change');
                 }else{
                     alert(data);
                 }
@@ -63,7 +63,7 @@
             //添加文件
         }
     }
-    const emits = defineEmits(['load_repo']);
+    const emits = defineEmits(['repo_change']);
 
     const file = ref(null);
     const onFileChange = ()=>{
@@ -83,7 +83,7 @@
                 console.log(response);
                 if(data=='success'){
                     //添加成功
-                    emits('load_repo');
+                    emits('repo_change');
                 }else{
                     alert(data);
                 }
@@ -101,7 +101,7 @@
             const {status,data}=response;
             console.log(response);
             alert('删除成功');
-            emits('load_repo');
+            emits('repo_change');
         }).catch(error=>{
             console.log(error);
             alert('axios error');
