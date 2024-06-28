@@ -118,7 +118,7 @@
 
 <template>
     <div>
-        <button @click="add_file">+ file</button>
+        <!-- <button @click="add_file">+ file</button> -->
         <button @click="add_dir">+ dir</button> 
         <button @click="confirm_del">delete</button>
         <br>
