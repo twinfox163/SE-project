@@ -134,7 +134,7 @@
                 dir_url:  {{ format_dir_url }} <br>
                 cur_url:  {{ format_cur_url }} <br>
                 file_url:  {{ format_file_url }} <br>
-                <AddFileDir @load_repo="load_repo"></AddFileDir>
+                <AddFileDir @repo_change="load_repo"></AddFileDir>
                 <button @click="show_history">History</button>
                 <div v-for="repo in target_repo" :key="repo.name">
                     <Directory :item="repo"/>

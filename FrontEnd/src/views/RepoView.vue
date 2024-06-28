@@ -35,6 +35,7 @@
                 const {status,data}=response;
                 console.log(response);
                 if(data!=null){
+                    l_data.repo_data=null;
                     l_data.repo_data=data;
                 }else{
                     alert("仓管不存在");
