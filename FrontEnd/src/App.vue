@@ -21,10 +21,11 @@
     <nav class="navbar">
       <router-link to="/">Home</router-link>
       <router-link to="/following">Following</router-link>
-      <span>
-        <input type="text" v-model="search_item">
-        <router-link :to="{name:'Space',params:{username:search_link}}">Search</router-link>
-      </span>
+      <!-- <span> -->
+        <!-- <input type="text" v-model="search_item"> -->
+        <router-link :to="{name:'Search'}">Search</router-link>
+        <!-- <router-link :to="{name:'Space',params:{username:search_link}}">Search</router-link> -->
+      <!-- </span> -->
       <router-link v-if="g_data.token==''" to="/login">Log in</router-link>
       <button v-else @click="logout()">Log out</button>
     </nav>
