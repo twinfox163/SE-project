@@ -143,7 +143,7 @@
             </div>
         </div>
         <div class="right-panel">
-            <FileShow v-if="file_show_flag" :config="{write:true}"></FileShow>
+            <FileShow v-if="file_show_flag" :config="{write:true}" @repo_change="load_repo"></FileShow>
             <History v-if="history_show_flag" :history="target_history"/>
         </div>
     </div>

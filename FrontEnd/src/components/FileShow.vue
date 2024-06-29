@@ -6,6 +6,7 @@
     const props = defineProps({
         config:Object
     })
+    const emits = defineEmits(['repo_change']);
     onMounted(()=>{
         load_file();
     })
@@ -47,7 +48,8 @@
                 const {status,data}=response;
                 console.log(response);
                 if(data==true){
-                    alert('提交成功')
+                    alert('提交成功');
+                    emits('repo_change');
                 }
                 else{
                     alert('提交失败')

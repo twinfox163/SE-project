@@ -1,7 +1,7 @@
 <template>
     <div>
-    用户名:<input type="text" v-model="username"><br>
-    密码<input type="text" v-model="password"><br>
+        用户名<input type="text" v-model="username" placeholder="3到12位字母数字"><br>
+        密码<input type="password" v-model="password" placeholder="8到16位字母数字"><br>
     <button @click="login()">log in</button>
     <router-link to="/signup">sign up</router-link>
     </div>
