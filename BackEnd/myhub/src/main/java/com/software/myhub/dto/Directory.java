@@ -9,7 +9,7 @@ public class Directory {
     private String directory; //文件夹在服务端的目录（不展示给用户）
     private ArrayList<Directory> children;  //文件夹中的子文件夹列表
     private ArrayList<String> files;  //文件夹第一层目录中的文件在prefix_path下的相对路径，并用"->"替换"\\"，以避免传递url时出错
-    private final static String prefix_path = "C:\\lessons\\2024spring\\software\\project\\new\\file\\";
+    public final static String prefix_path = "C:\\lessons\\2024spring\\software\\project\\new\\file\\";
 
     public Directory() {
         this.children = new ArrayList<>();

@@ -10,31 +10,61 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class FileController {
 
-    @GetMapping("/files/{filename}")
-    public ResponseEntity<Resource> showFile(@PathVariable String filename) {
-        return FileService.readFile(filename);
-    }
-
-    @GetMapping("/new_dir/{path}/{dirname}")
-    public String newDir(@PathVariable String path, @PathVariable String dirname) {
-        if(path == null || path.isEmpty() || dirname == null || dirname.isEmpty())
+    @RequestMapping("/new_dir")
+    @ResponseBody
+    public String newDir(String path, String dirname) {
+        System.out.println("new dir request");
+        System.out.println(path);
+        System.out.println(dirname);
+        if (path == null || path.isEmpty() || dirname == null || dirname.isEmpty())
             return "illegal argument";
         if (!path.contains("->"))
             return "illegal path";
-        String path_decode = "C:\\lessons\\2024spring\\software\\project\\new\\file\\" + path.replace("->", "\\");
-        if(DirectoryService.create(path_decode, dirname, false))
+        String path_decode = path.replace("->", "\\");
+        if (DirectoryService.new_dir(path_decode, dirname))
             return "success";
         else
-            return "error";
+            return "dir error";
     }
+
+    @GetMapping("/files")
+    public ResponseEntity<Resource> showFile(String filename) {
+        return FileService.readFile(filename);
+    }
+
 
     @PostMapping("/upload")
     public boolean handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) {
-        return FileService.upload(file, path, false);
+        System.out.println("upload request");
+        System.out.println(path);
+        System.out.println(file.getOriginalFilename());
+        boolean result = FileService.upload(file, path, false, null);
+        if (result)
+            System.out.println("success");
+        else
+            System.out.println("fail");
+        return result;
     }
 
     @PostMapping("/modify")
-    public boolean handleFileModify(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) {
-        return FileService.upload(file, path, true);
+    public boolean handleFileModify(@RequestParam("file") MultipartFile file, @RequestParam("path") String path, @RequestParam("mark") String mark) {
+        System.out.println("modify request");
+        System.out.println(path);
+        System.out.println(file.getOriginalFilename());
+        System.out.println(mark);
+        boolean result = FileService.upload(file, path, true, mark);
+        if (result)
+            System.out.println("success");
+        else
+            System.out.println("fail");
+        return result;
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public boolean deleteFile(String filename) {
+        System.out.println("delete request");
+        System.out.println(filename);
+        return FileService.fileDelete(filename);
     }
 }

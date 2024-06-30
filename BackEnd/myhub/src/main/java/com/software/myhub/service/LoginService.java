@@ -60,7 +60,7 @@ public class LoginService {
     public static String signup(String id, String password)
     {
         if(!FormcheckService.checkid(id))
-            return "wrong id form,the length should be exactly 10 while all character should be numbers!";
+            return "wrong id form,the length should be between 3 and 12 while every character should be either number or alphabet!";
         if(!FormcheckService.checkpassword(password))
             return "wrong password form,the length should be between 8 and 16 while every character should be either number or alphabet!";
         File file = new File(user_list);
@@ -108,10 +108,20 @@ public class LoginService {
             }
         }
         File usr_path = new File("C:\\lessons\\2024spring\\software\\project\\new\\file\\" + id);
+        File followList;
         if(usr_path.exists())
             return "user exists";
-        if(usr_path.mkdir())
-            return "success";
+        if(usr_path.mkdir()) {
+            followList = new File(usr_path, "follow_list.txt");
+            try {
+                if(followList.createNewFile())
+                    return "success";
+                else
+                    return "error";
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         else return "error";
     }
 }

@@ -19,6 +19,9 @@ public class LoginController {
     @RequestMapping("/signup")
     @ResponseBody
     public String signup(String username, String password) {
+        System.out.println("get signup request.\n");
+        System.out.println("username: " + username + "\n");
+        System.out.println("password: " + password + "\n");
         return LoginService.signup(username, password);
     }
 }

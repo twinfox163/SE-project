@@ -10,11 +10,11 @@ public class FormcheckService {
     //checkid方法检查id的格式是否正确
     public static boolean checkid(String id)
     {
-        if(id.length() != 10)
+        if(id.length() > 12 || id.length() < 3)
             return false;
-        for(int i = 0;i < 10;i++)
+        for(int i = 0;i < id.length();i++)
         {
-            if(!Character.isDigit(id.charAt(i)))
+            if(!Character.isDigit(id.charAt(i))&&!Character.isAlphabetic(id.charAt(i)))
                 return false;
         }
         return true;
